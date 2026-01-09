@@ -36,11 +36,14 @@
 
     <script>
         let target = "";
+        let attemptCount = 0;
 
         function startGame(num) {
             target = num.toString();
+            attemptCount = 0;
             document.getElementById('setupArea').style.display = 'none';
             document.getElementById('gameArea').style.display = 'block';
+            document.getElementById('history').innerHTML = '';
         }
 
         function setRandom() {
@@ -58,17 +61,18 @@
             const guess = document.getElementById('guessInput').value;
             if (guess.length !== 4) return alert("Enter 4 digits!");
 
+            attemptCount++;
             let correct = 0;
             for (let i = 0; i < 4; i++) {
                 if (guess[i] === target[i]) correct++;
             }
 
             const history = document.getElementById('history');
-            history.innerHTML = `<div class="log-item"><span>${guess}</span> <span>${correct} Correct</span></div>` + history.innerHTML;
+            history.innerHTML = `<div class="log-item"><span>#${attemptCount}: ${guess}</span> <span>${correct} Correct</span></div>` + history.innerHTML;
 
             if (correct === 4) {
                 document.getElementById('status').innerText = "🎉 You Won!";
-                alert("Correct! The number was " + target);
+                alert("Correct! The number was " + target + "\nAttempts: " + attemptCount);
             }
             document.getElementById('guessInput').value = "";
         }
